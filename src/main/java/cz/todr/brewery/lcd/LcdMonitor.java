@@ -1,7 +1,8 @@
 package cz.todr.brewery.lcd;
 
+import com.pi4j.component.lcd.LCD;
 import cz.todr.brewery.core.BreweryCore;
-import cz.todr.brewery.core.hardware.raspberry.MyI2CLcdDisplay;
+import cz.todr.brewery.core.hardware.raspberry.DisplayFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,17 +20,13 @@ public class LcdMonitor {
     @Autowired
     private BreweryCore core;
 
-    private MyI2CLcdDisplay lcd;
+    private LCD lcd;
 
     private final Instant startTime = Instant.now();
 
     @PostConstruct
     private void init() {
-        try {
-            lcd = new MyI2CLcdDisplay();
-        } catch (Exception e) {
-            LOG.error("Could not initialise LCD display");
-        }
+        lcd = DisplayFactory.getDisplay();
     }
 
     @Scheduled(initialDelay=1000, fixedRate=1000)
