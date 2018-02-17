@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html>
+<head> 
+    <title>Brewery Client</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+	<!--<div><img src="test_img.png" alt="brewing" width="500"/></div>-->
+    <h1>Brewery</h1>
+
+    <div class="rTable">
+        <div class="rTableRow">
+            <div class="rTableCell">Temp:</div>
+            <div id="temp" class="rTableCell">N/A</div>
+            <div id="heating" class="rTableCell"><img id="on" src="on.png"><img id="off" src="off.png"></div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell">Required:</div>
+            <div id="requiredTemp" class="rTableCell"></div>
+            <div id="timestamp" class="rTableCell"></div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell"><label for="setTemp">Set temp:</label></div>
+            <div class="rTableCell">
+                <input id="setTemp" type="number" name="setTemp" min="-100" max="200" step="0.1" size="4">
+                <div id="setTempError" class="error"></div>
+            </div>
+            <div class="rTableCell"><button type="button" onclick="setNewTemp()">Send</button></div>
+        </div>
+    </div>
+
+    <script src="breweryJS.js"></script>
+</body>
+
+</html>

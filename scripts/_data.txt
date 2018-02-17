@@ -1,0 +1,10 @@
+drop table TemperatureHistoryRecord;
+create table TemperatureHistoryRecord (time timestamp not null, temp double, primary key (time));
+
+insert into TemperatureHistoryRecord (temp, time) values ('12.5', {ts '2012-09-17 19:12:52.69'});
+insert into TemperatureHistoryRecord (temp, time) values ('13.5', {ts '2012-09-17 19:13:52.69'});
+insert into TemperatureHistoryRecord (temp, time) values ('14.5', {ts '2012-09-17 19:14:52.69'});
+insert into TemperatureHistoryRecord (temp, time) values ('15.5', {ts '2012-09-17 19:15:52.69'});
+
+SELECT * FROM TemperatureHistoryRecord e WHERE e.time <= '2012-09-17 19:13:53.69' ORDER BY e.time DESC limit 1;
+SELECT * FROM TemperatureHistoryRecord e WHERE e.time >= '2012-09-17 19:13:53.69' ORDER BY e.time ASC limit 1;

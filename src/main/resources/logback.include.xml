@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<included>
+	<statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener" />  
+	
+	<!-- <withJansi>true</withJansi> --> <!-- ANSI colors -->
+	
+	<jmxConfigurator />
+	<contextName>TodrJmx</contextName>
+	
+	<property name="MY_PATTERN" value="%d{HH:mm:ss.SSS} [%-20thread] %-5level %-50logger{5} - %msg%n" />
+
+	<!-- Send debug messages to System.out -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+	    </filter>
+		<!-- By default, encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
+		<encoder>
+			<pattern>${MY_PATTERN}</pattern>
+		</encoder>
+	</appender>
+
+	<!-- Send debug messages to a file -->
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>./brewery.log</file>
+		<append>true</append>
+		<encoder>
+			<Pattern>${MY_PATTERN}</Pattern>
+			<!-- <outputPatternAsHeader>true</outputPatternAsHeader> -->
+		</encoder>
+	    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<fileNamePattern>./brewery.%d{yyyy-MM-dd}.log</fileNamePattern>
+			
+			<!-- keep 30 days' worth of history -->
+			<maxHistory>30</maxHistory>
+	    </rollingPolicy>
+	</appender>
+	
+	<appender name="ASYNC_FILE" class="ch.qos.logback.classic.AsyncAppender">
+		<discardingThreshold>0</discardingThreshold>
+		<maxFlushTime>5000</maxFlushTime>
+		<neverBlock>false</neverBlock>
+		<includeCallerData>false</includeCallerData>
+		<queueSize>2048</queueSize>
+				
+    	<appender-ref ref="FILE" />
+  	</appender>
+	
+	<!-- Print SQL and its values-->
+	<!-- <logger name="org.hibernate.type" level="TRACE" /> -->
+  	<!-- <logger name="org.hibernate.SQL" level="DEBUG" /> -->
+  	<logger name="org.hibernate" level="INFO" />
+	
+	<logger name="cz.todr" level="INFO"/>
+	
+</included>

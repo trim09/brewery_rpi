@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true" packagingData="true">
+
+	<include resource="logback.include.xml" />
+	
+	<!-- By default, the level of the root level is set to INFO -->
+	<root level="INFO">
+		<appender-ref ref="ASYNC_FILE" />
+		<appender-ref ref="STDOUT" />
+	</root>
+</configuration>
