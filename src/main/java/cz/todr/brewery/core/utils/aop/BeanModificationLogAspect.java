@@ -1,21 +1,19 @@
 package cz.todr.brewery.core.utils.aop;
 
-import java.lang.reflect.Method;
-import java.util.Arrays;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.inject.Named;
-
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
 
-@Named
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+
+@Controller
 @Aspect
 public class BeanModificationLogAspect {
 	

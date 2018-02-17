@@ -1,18 +1,16 @@
 package cz.todr.brewery.core.conf;
 
+import cz.todr.brewery.core.utils.aop.BeanModificationLogging;
+import org.springframework.jmx.export.annotation.ManagedAttribute;
+import org.springframework.jmx.export.annotation.ManagedResource;
+import org.springframework.stereotype.Controller;
+
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Properties;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
-import org.springframework.jmx.export.annotation.ManagedAttribute;
-import org.springframework.jmx.export.annotation.ManagedResource;
-
-import cz.todr.brewery.core.utils.aop.BeanModificationLogging;
-
-@Named
+@Controller
 @BeanModificationLogging
 @ManagedResource
 public class Config {

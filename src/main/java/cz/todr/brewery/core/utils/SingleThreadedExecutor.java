@@ -1,24 +1,14 @@
 package cz.todr.brewery.core.utils;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
 
-@Named
-@Singleton
+import java.util.Collection;
+import java.util.List;
+import java.util.concurrent.*;
+
+@Controller
 public class SingleThreadedExecutor implements ScheduledExecutorService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(SingleThreadedExecutor.class);

@@ -1,13 +1,5 @@
 package cz.todr.brewery.core;
 
-import java.util.concurrent.TimeUnit;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import cz.todr.brewery.core.conf.Config;
 import cz.todr.brewery.core.hardware.Hardware;
 import cz.todr.brewery.core.regulator.Regulator;
@@ -15,27 +7,33 @@ import cz.todr.brewery.core.system.heating.Heating;
 import cz.todr.brewery.core.system.heating.HeatingRate;
 import cz.todr.brewery.core.utils.SingleThreadedExecutor;
 import cz.todr.brewery.core.utils.Utils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
-@Named
+import java.util.concurrent.TimeUnit;
+
+@Controller
 public class ControlLoop {
 	private static final Logger LOG = LoggerFactory.getLogger(ControlLoop.class);
 	
-	@Inject
+	@Autowired
 	private SingleThreadedExecutor executor;
 	
-	@Inject
+	@Autowired
 	private Config config;
 	
-	@Inject
+	@Autowired
 	private Regulator<Float, Boolean> regulator;
 	
-	@Inject
+	@Autowired
 	private Heating heating;
 	
-	@Inject
+	@Autowired
 	private Hardware thermometer;
 
-	@Inject
+	@Autowired
 	private HeatingRate heatingSpeed;
 
 	private boolean running;

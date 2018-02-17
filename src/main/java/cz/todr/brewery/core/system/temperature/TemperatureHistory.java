@@ -1,8 +1,8 @@
 package cz.todr.brewery.core.system.temperature;
 
-import java.time.Instant;
-
 import cz.todr.brewery.core.system.temperature.entity.TemperatureHistoryRecord;
+
+import java.time.Instant;
 
 public interface TemperatureHistory {
 

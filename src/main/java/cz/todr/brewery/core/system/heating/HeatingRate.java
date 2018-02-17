@@ -1,23 +1,21 @@
 package cz.todr.brewery.core.system.heating;
 
-import java.time.Instant;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import cz.todr.brewery.core.hardware.Hardware;
 import cz.todr.brewery.core.system.temperature.TemperatureHistory;
 import cz.todr.brewery.core.system.temperature.entity.TemperatureHistoryRecord;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
-@Named
+import java.time.Instant;
+
+@Controller
 public class HeatingRate {
 	private static final Logger LOG = LoggerFactory.getLogger(HeatingRate.class);
 	
-	@Inject private TemperatureHistory history;
-	@Inject private Hardware thermometer;
+	@Autowired private TemperatureHistory history;
+	@Autowired private Hardware thermometer;
 	
 	public float getHeatingRate() {
 		TemperatureHistoryRecord tempHistoryRecord = history.getOldestEntry();		

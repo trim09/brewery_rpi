@@ -1,26 +1,23 @@
 package cz.todr.brewery.core.hardware;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import cz.todr.brewery.core.hardware.raspberry.RaspberryInfo;
 import cz.todr.brewery.core.hardware.raspberry.Relay;
 import cz.todr.brewery.core.hardware.raspberry.Wire1Thermometer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
-@Named
-@Singleton
+import javax.annotation.PostConstruct;
+
+@Controller
 public class HardwareRaspberryImpl implements Hardware {
 	private static final Logger LOG = LoggerFactory.getLogger(HardwareRaspberryImpl.class);
 	
-	@Inject
+	@Autowired
 	private Relay relay;
 	
-	@Inject
+	@Autowired
 	private Wire1Thermometer wire1Thermometer;
 	
 	@PostConstruct

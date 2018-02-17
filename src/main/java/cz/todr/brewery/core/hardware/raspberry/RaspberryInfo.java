@@ -1,14 +1,13 @@
 package cz.todr.brewery.core.hardware.raspberry;
 
-import java.io.IOException;
-import java.text.ParseException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.pi4j.system.NetworkInfo;
 import com.pi4j.system.SystemInfo;
 import com.pi4j.system.SystemInfo.BoardType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.text.ParseException;
 
 public class RaspberryInfo {
 	private static final Logger LOG = LoggerFactory.getLogger(RaspberryInfo.class);

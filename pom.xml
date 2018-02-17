@@ -57,13 +57,6 @@
             <artifactId>hsqldb</artifactId>
         </dependency>
 
-        <!-- JSR 330: Dependency Injection for Java -->
-        <dependency>
-            <groupId>javax.inject</groupId>
-            <artifactId>javax.inject</artifactId>
-            <version>1</version>
-        </dependency>
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

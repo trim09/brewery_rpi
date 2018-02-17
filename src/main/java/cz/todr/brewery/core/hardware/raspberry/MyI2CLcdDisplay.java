@@ -4,7 +4,6 @@ import com.pi4j.component.lcd.LCD;
 import com.pi4j.component.lcd.LCDBase;
 import com.pi4j.component.lcd.LCDTextAlignment;
 import com.pi4j.component.lcd.impl.I2CLcdDisplay;
-import org.apache.commons.logging.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

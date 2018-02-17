@@ -1,8 +1,8 @@
 package cz.todr.brewery.core.regulator;
 
-import javax.inject.Named;
+import org.springframework.stereotype.Controller;
 
-@Named
+@Controller
 public class TwoStateRegulator implements Regulator<Float, Boolean> {
 	
 	@Override

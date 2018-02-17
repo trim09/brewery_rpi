@@ -1,28 +1,26 @@
 package cz.todr.brewery.core.system.heating;
 
-import java.util.concurrent.TimeUnit;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import cz.todr.brewery.core.conf.Config;
 import cz.todr.brewery.core.hardware.Hardware;
 import cz.todr.brewery.core.utils.SingleThreadedExecutor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
-@Named
+import java.util.concurrent.TimeUnit;
+
+@Controller
 public class HeatingImpl implements Heating {
 	private static final Logger LOG = LoggerFactory.getLogger(HeatingImpl.class);
 	
-	@Inject
+	@Autowired
 	private Config config;
 	
-	@Inject
+	@Autowired
 	private SingleThreadedExecutor executor;
 	
-	@Inject
+	@Autowired
 	private Hardware hardware;
 	
 	private long nextStateChange;

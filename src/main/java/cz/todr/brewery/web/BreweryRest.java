@@ -1,26 +1,25 @@
 package cz.todr.brewery.web;
 
-import com.google.common.collect.ImmutableList;
 import cz.todr.brewery.core.BreweryCore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.time.Instant;
-import java.util.Date;
-import java.util.List;
 
 @RestController
 public class BreweryRest {
     private static final Logger LOG = LoggerFactory.getLogger(BreweryRest.class);
 
-    @Inject
+    @Autowired
     private BreweryCore breweryCore;
 
     private static class Status {

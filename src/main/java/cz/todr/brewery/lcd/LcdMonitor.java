@@ -4,21 +4,19 @@ import cz.todr.brewery.core.BreweryCore;
 import cz.todr.brewery.core.hardware.raspberry.MyI2CLcdDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Controller;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import javax.inject.Named;
-import java.text.DecimalFormat;
 import java.time.Duration;
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 
-@Named
+@Controller
 public class LcdMonitor {
     private static final Logger LOG = LoggerFactory.getLogger(LcdMonitor.class);
 
-    @Inject
+    @Autowired
     private BreweryCore core;
 
     private MyI2CLcdDisplay lcd;

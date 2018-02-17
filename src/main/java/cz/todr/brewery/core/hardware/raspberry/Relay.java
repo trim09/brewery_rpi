@@ -1,19 +1,16 @@
 package cz.todr.brewery.core.hardware.raspberry;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Named;
-import javax.inject.Singleton;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.PinState;
 import com.pi4j.io.gpio.RaspiPin;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
 
-@Named
-@Singleton
+import javax.annotation.PostConstruct;
+
+@Controller
 public class Relay {
 	private static final Logger LOG = LoggerFactory.getLogger(Relay.class);
 	

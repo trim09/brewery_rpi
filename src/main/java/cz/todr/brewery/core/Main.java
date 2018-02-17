@@ -1,14 +1,7 @@
 package cz.todr.brewery.core;
 
-import java.io.IOException;
-import java.util.Locale;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
-import cz.todr.brewery.core.conf.Config;
-import cz.todr.brewery.core.conf.SpringConfiguration;
 
 public class Main {
 	private static final Logger LOG = LoggerFactory.getLogger(Main.class);
