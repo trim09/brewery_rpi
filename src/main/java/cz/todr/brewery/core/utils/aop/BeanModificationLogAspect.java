@@ -16,7 +16,7 @@ import java.util.Arrays;
 @Controller
 @Aspect
 public class BeanModificationLogAspect {
-	
+
 	private static final Logger ASPECT_LOGGER = LoggerFactory.getLogger(BeanModificationLogAspect.class);
 
 	/* within package && with an annotation %% setter */

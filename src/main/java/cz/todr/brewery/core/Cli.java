@@ -79,7 +79,7 @@ public class Cli {
 	private static CmdArgs process(CommandLine cmd) {
 		float requiredTemp = cmd.hasOption("t") ? Float.parseFloat(cmd.getOptionValue("t")) : 0f;
 		Float maxHeatingRate = cmd.hasOption("r") ? Float.parseFloat(cmd.getOptionValue("r")) : null;
-		return new CmdArgs(requiredTemp, maxHeatingRate, maxHeatingRate == null ? true : false);
+		return new CmdArgs(requiredTemp, maxHeatingRate, maxHeatingRate == null);
 	}
 	
 	private static void printHelp(Options options) {
