@@ -13,7 +13,7 @@ public class RaspberryInfo {
 	private static final Logger LOG = LoggerFactory.getLogger(RaspberryInfo.class);
 	
 	private static BoardType boardType;
-	
+
     public static void printInfo() {
         if (isRunningOnRaspberryPi()) {
         	try {
@@ -112,7 +112,7 @@ public class RaspberryInfo {
         	try { 
         		boardType = SystemInfo.getBoardType();
         	} catch (Exception e) {
-        		LOG.error("Could not identify Raspberry board", e);
+        		LOG.error("Could not identify Raspberry board");
         		boardType = BoardType.UNKNOWN;
         	}	
     	}

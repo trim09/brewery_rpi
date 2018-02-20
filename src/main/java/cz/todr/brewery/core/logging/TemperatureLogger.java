@@ -27,7 +27,7 @@ public class TemperatureLogger {
 	private SingleThreadedExecutor executor;
 	
 	@Autowired
-	private Hardware thermometer;
+	private Hardware hw;
 	
 	@Autowired
 	private HeatingRate heatingRate;
@@ -47,7 +47,7 @@ public class TemperatureLogger {
 	private void log() {
 		try {
 			LOG.info("Temp {} (diff {}°C/min), required temp {}, heating {}",
-					Utils.formatFloat(thermometer.getTemp()), 
+					Utils.formatFloat(hw.getTemp()),
 					Utils.formatFloat(heatingRate.getHeatingRate()),
 					Utils.formatFloat(controller.getRequiredTemp()),
 					heating.isHeating() ? "ON" : "OFF");

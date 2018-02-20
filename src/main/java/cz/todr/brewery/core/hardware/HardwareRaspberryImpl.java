@@ -1,11 +1,9 @@
 package cz.todr.brewery.core.hardware;
 
-import cz.todr.brewery.core.hardware.raspberry.RaspberryInfo;
-import cz.todr.brewery.core.hardware.raspberry.Relay;
-import cz.todr.brewery.core.hardware.raspberry.Wire1Thermometer;
+import com.pi4j.component.lcd.LCD;
+import cz.todr.brewery.core.hardware.raspberry.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.PostConstruct;
@@ -13,27 +11,22 @@ import javax.annotation.PostConstruct;
 @Controller
 public class HardwareRaspberryImpl implements Hardware {
 	private static final Logger LOG = LoggerFactory.getLogger(HardwareRaspberryImpl.class);
-	
-	@Autowired
+
 	private Relay relay;
 	
-	@Autowired
 	private Wire1Thermometer wire1Thermometer;
-	
+
+	private LCD lcd;
+
+	private Buttons buttons;
+
 	@PostConstruct
 	private void init() {
 		RaspberryInfo.printInfo();
-	}
-	
-	@Override
-	public boolean isCompatible() {
-		return RaspberryInfo.isRunningOnRaspberryPi();
-	}
-
-	@Override
-	public void printInfo() {
-		RaspberryInfo.printInfo();
-		
+		lcd = DisplayFactory.getDisplay();
+		wire1Thermometer = new Wire1Thermometer();
+		relay = new Relay();
+		buttons = new Buttons();
 	}
 
 	@Override
@@ -48,5 +41,16 @@ public class HardwareRaspberryImpl implements Hardware {
 		float temp = wire1Thermometer.getTempSingleDevice();
 		LOG.trace("Reading temp={}", temp);
 		return temp;
+	}
+
+	@Override
+	public void display(String firstRow, String secondRow) {
+		lcd.writeln(0, firstRow);
+		lcd.writeln(1, secondRow);
+	}
+
+	@Override
+	public void registerButtonListener(Buttons.ButtonEnum button, Buttons.ButtonStateListener listener) {
+		buttons.registerListener(button, listener);
 	}
 }

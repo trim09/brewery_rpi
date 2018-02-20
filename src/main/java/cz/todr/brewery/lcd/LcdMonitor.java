@@ -1,15 +1,13 @@
 package cz.todr.brewery.lcd;
 
-import com.pi4j.component.lcd.LCD;
 import cz.todr.brewery.core.BreweryCore;
-import cz.todr.brewery.core.hardware.raspberry.DisplayFactory;
+import cz.todr.brewery.core.hardware.Hardware;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 
-import javax.annotation.PostConstruct;
 import java.time.Duration;
 import java.time.Instant;
 
@@ -20,14 +18,10 @@ public class LcdMonitor {
     @Autowired
     private BreweryCore core;
 
-    private LCD lcd;
+    @Autowired
+    private Hardware hw;
 
     private final Instant startTime = Instant.now();
-
-    @PostConstruct
-    private void init() {
-        lcd = DisplayFactory.getDisplay();
-    }
 
     @Scheduled(initialDelay=1000, fixedRate=1000)
     public void updateDisplay () {
@@ -40,9 +34,8 @@ public class LcdMonitor {
         Duration timeDiff = Duration.between(startTime, Instant.now());
 
         String line0 = String.format("Temp%6.2f   %s", temp, isHeating ? "ON" : "OFF");
-        lcd.writeln(0, line0);
         String line1 = String.format("Req%7.2f %5s", required, durationToString(timeDiff));
-        lcd.writeln(1, line1);
+        hw.display(line0, line1);
 
         LOG.debug("End display update");
     }

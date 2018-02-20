@@ -6,19 +6,13 @@ import com.pi4j.io.gpio.PinState;
 import com.pi4j.io.gpio.RaspiPin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
 
-import javax.annotation.PostConstruct;
-
-@Controller
 public class Relay {
 	private static final Logger LOG = LoggerFactory.getLogger(Relay.class);
 	
     private GpioPinDigitalOutput pin;
 
-
-    @PostConstruct
-    private void init() {
+    public void Relay() {
     	if (RaspberryInfo.isRunningOnRaspberryPi()) {
 	    	pin = GpioFactory.getInstance().provisionDigitalOutputPin(RaspiPin.GPIO_24, "heating_relay", PinState.HIGH);
 	    	setConnected(false);

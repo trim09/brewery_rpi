@@ -14,8 +14,11 @@ import java.time.Instant;
 public class HeatingRate {
 	private static final Logger LOG = LoggerFactory.getLogger(HeatingRate.class);
 	
-	@Autowired private TemperatureHistory history;
-	@Autowired private Hardware thermometer;
+	@Autowired
+	private TemperatureHistory history;
+
+	@Autowired
+	private Hardware thermometer;
 	
 	public float getHeatingRate() {
 		TemperatureHistoryRecord tempHistoryRecord = history.getOldestEntry();		
