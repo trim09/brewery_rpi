@@ -1,10 +1,8 @@
-package cz.todr.brewery.core.logging;
+package cz.todr.brewery.core.temperature;
 
-import cz.todr.brewery.core.ControlLoop;
 import cz.todr.brewery.core.conf.Config;
 import cz.todr.brewery.core.hardware.Hardware;
-import cz.todr.brewery.core.system.heating.Heating;
-import cz.todr.brewery.core.system.heating.HeatingRate;
+import cz.todr.brewery.core.heating.Heating;
 import cz.todr.brewery.core.utils.SingleThreadedExecutor;
 import cz.todr.brewery.core.utils.Utils;
 import org.slf4j.Logger;
@@ -30,13 +28,13 @@ public class TemperatureLogger {
 	private Hardware hw;
 	
 	@Autowired
-	private HeatingRate heatingRate;
+	private TemperatureChangeRate heatingRate;
 	
 	@Autowired
 	private Heating heating;
 	
 	@Autowired
-	private ControlLoop controller;
+	private TemperatureControlLoop controller;
 	
 	@PostConstruct
 	private void init() {

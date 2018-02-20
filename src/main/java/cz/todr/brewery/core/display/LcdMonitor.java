@@ -1,4 +1,4 @@
-package cz.todr.brewery.lcd;
+package cz.todr.brewery.core.display;
 
 import cz.todr.brewery.core.BreweryCore;
 import cz.todr.brewery.core.hardware.Hardware;

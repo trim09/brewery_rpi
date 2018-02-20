@@ -1,7 +1,8 @@
 package cz.todr.brewery.core;
 
 import cz.todr.brewery.core.hardware.Hardware;
-import cz.todr.brewery.core.system.heating.Heating;
+import cz.todr.brewery.core.heating.Heating;
+import cz.todr.brewery.core.temperature.TemperatureControlLoop;
 import cz.todr.brewery.core.utils.SingleThreadedExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +23,7 @@ public class BreweryCore {
 	private Hardware thermometer;
 	
 	@Autowired
-	private ControlLoop tempController;
+	private TemperatureControlLoop tempController;
 	
 	@Autowired
 	private SingleThreadedExecutor executor;

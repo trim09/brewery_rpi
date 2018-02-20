@@ -1,10 +1,8 @@
-package cz.todr.brewery.core;
+package cz.todr.brewery.core.temperature;
 
 import cz.todr.brewery.core.conf.Config;
 import cz.todr.brewery.core.hardware.Hardware;
-import cz.todr.brewery.core.regulator.Regulator;
-import cz.todr.brewery.core.system.heating.Heating;
-import cz.todr.brewery.core.system.heating.HeatingRate;
+import cz.todr.brewery.core.heating.Heating;
 import cz.todr.brewery.core.utils.SingleThreadedExecutor;
 import cz.todr.brewery.core.utils.Utils;
 import org.slf4j.Logger;
@@ -15,18 +13,15 @@ import org.springframework.stereotype.Controller;
 import java.util.concurrent.TimeUnit;
 
 @Controller
-public class ControlLoop {
-	private static final Logger LOG = LoggerFactory.getLogger(ControlLoop.class);
+public class TemperatureControlLoop {
+	private static final Logger LOG = LoggerFactory.getLogger(TemperatureControlLoop.class);
 	
 	@Autowired
 	private SingleThreadedExecutor executor;
 	
 	@Autowired
 	private Config config;
-	
-	@Autowired
-	private Regulator<Float, Boolean> regulator;
-	
+
 	@Autowired
 	private Heating heating;
 	
@@ -34,7 +29,7 @@ public class ControlLoop {
 	private Hardware thermometer;
 
 	@Autowired
-	private HeatingRate heatingSpeed;
+	private TemperatureChangeRate heatingSpeed;
 
 	private boolean running;
 	
@@ -50,12 +45,16 @@ public class ControlLoop {
 		}
 	}
 
+	public float getRequiredTemp() {
+		return requiredTemp;
+	}
+
 	private void controlLoop() {
 		try {
 			float temp = thermometer.getTemp();
 			float heatingspeed = heatingSpeed.getHeatingRate();
-			boolean tempRegulation = regulator.controll(temp, requiredTemp);
-			boolean heatingSpeedRegulation = regulator.controll(heatingspeed, config.getMaximumHeatingSpeed());
+			boolean tempRegulation = temp < requiredTemp;
+			boolean heatingSpeedRegulation = heatingspeed < config.getMaximumHeatingSpeed();
 			boolean shouldTurnOnHeating = tempRegulation && (heatingSpeedRegulation || config.isIgnoreHeatingSpeed());
 			
 			if (LOG.isTraceEnabled()) {
@@ -71,8 +70,5 @@ public class ControlLoop {
 			LOG.error("Exception control loop", e);
 		}
 	}
-	
-	public float getRequiredTemp() {
-		return requiredTemp;
-	}
+
 }

@@ -1,4 +1,4 @@
-package cz.todr.brewery.core.system.heating;
+package cz.todr.brewery.core.heating;
 
 import cz.todr.brewery.core.conf.Config;
 import cz.todr.brewery.core.hardware.Hardware;

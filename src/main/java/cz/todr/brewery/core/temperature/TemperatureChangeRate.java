@@ -1,8 +1,7 @@
-package cz.todr.brewery.core.system.heating;
+package cz.todr.brewery.core.temperature;
 
 import cz.todr.brewery.core.hardware.Hardware;
-import cz.todr.brewery.core.system.temperature.TemperatureHistory;
-import cz.todr.brewery.core.system.temperature.entity.TemperatureHistoryRecord;
+import cz.todr.brewery.core.temperature.model.TemperatureHistoryRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,15 +10,16 @@ import org.springframework.stereotype.Controller;
 import java.time.Instant;
 
 @Controller
-public class HeatingRate {
-	private static final Logger LOG = LoggerFactory.getLogger(HeatingRate.class);
+public class TemperatureChangeRate {
+	private static final Logger LOG = LoggerFactory.getLogger(TemperatureChangeRate.class);
 	
 	@Autowired
 	private TemperatureHistory history;
 
 	@Autowired
 	private Hardware thermometer;
-	
+
+	/** @return number that represents °C/min */
 	public float getHeatingRate() {
 		TemperatureHistoryRecord tempHistoryRecord = history.getOldestEntry();		
 		if (tempHistoryRecord == null) {

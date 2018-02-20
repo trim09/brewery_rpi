@@ -1,4 +1,4 @@
-package cz.todr.brewery.core.system.heating;
+package cz.todr.brewery.core.heating;
 
 public interface Heating {
 
