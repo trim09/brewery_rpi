@@ -1,8 +1,7 @@
-package cz.todr.brewery.core.hardware.raspberry;
+package cz.todr.brewery.hardware.impl.raspberry;
 
 import com.google.common.util.concurrent.RateLimiter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -20,8 +19,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class Wire1Thermometer {
-	private static final Logger LOG = LoggerFactory.getLogger(Wire1Thermometer.class);
 
 	private final class SlaveDetail {
         private final Path path;
@@ -56,7 +55,7 @@ public class Wire1Thermometer {
     	if (RaspberryInfo.isRunningOnRaspberryPi()) {
 			try {
 				if (!Files.exists(W1_DEVICES_PATH)) {
-					LOG.error("Path not Found {}", W1_DEVICES_PATH);
+					log.error("Path not Found {}", W1_DEVICES_PATH);
 					return Collections.emptyList();
 				}
 				
@@ -76,7 +75,7 @@ public class Wire1Thermometer {
 			    throw new UncheckedIOException(e);
 			}
     	} else {
-    		LOG.error("Cannot get all devices. Is it running on RaspberryPi board? Is the thermometer connected? Check {}", W1_DEVICES_PATH);
+    		log.error("Cannot get all devices. Is it running on RaspberryPi board? Is the thermometer connected? Check {}", W1_DEVICES_PATH);
     		return Collections.emptyList();
     	}
     }
@@ -97,7 +96,7 @@ public class Wire1Thermometer {
 	            slaveDetail.temp = readTempFromPath(slaveDetail.path);
 	        }
     	} catch (RuntimeException e) {
-    		LOG.error("Exception during temperature history autopdate", e);
+    		log.error("Exception reading temperature", e);
     	}
     }
 
@@ -120,7 +119,7 @@ public class Wire1Thermometer {
     public float getTempSingleDevice() {
     	if (slaves.size() != 1) {
             if (rateLimiter.tryAcquire()) {
-                LOG.error("Could not find thermometer. Is the thermometer connected? Check {}", W1_DEVICES_PATH);
+                log.error("Could not find thermometer. Is the thermometer connected? Check {}", W1_DEVICES_PATH);
             }
             //throw new IllegalStateException("Number of Wire1 slaves " + slaves.size());
     		return 0f; 

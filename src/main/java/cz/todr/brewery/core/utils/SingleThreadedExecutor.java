@@ -1,7 +1,6 @@
 package cz.todr.brewery.core.utils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 
 import java.util.Collection;
@@ -9,10 +8,9 @@ import java.util.List;
 import java.util.concurrent.*;
 
 @Controller
+@Slf4j
 public class SingleThreadedExecutor implements ScheduledExecutorService {
 
-	private static final Logger LOG = LoggerFactory.getLogger(SingleThreadedExecutor.class);
-	
 	private final static ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor(
 			runnable -> new Thread(runnable, "brewery-control-loop"));
 	
@@ -24,7 +22,7 @@ public class SingleThreadedExecutor implements ScheduledExecutorService {
 		try {
 			return executor.submit(task).get();
 		} catch (InterruptedException | ExecutionException e) {
-			LOG.error("Unexpected exception", e);
+			log.error("Unexpected exception", e);
 			throw new IllegalStateException(e);
 		}
 	}
@@ -33,7 +31,7 @@ public class SingleThreadedExecutor implements ScheduledExecutorService {
 		try {
 			executor.submit(task).get();
 		} catch (InterruptedException | ExecutionException e) {
-			LOG.error("Unexpected exception", e);
+			log.error("Unexpected exception", e);
 			throw new IllegalStateException(e);
 		}
 	}

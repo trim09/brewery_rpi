@@ -1,4 +1,4 @@
-package cz.todr.brewery.core.hardware.raspberry;
+package cz.todr.brewery.hardware.impl.raspberry;
 
 import com.pi4j.system.NetworkInfo;
 import com.pi4j.system.SystemInfo;

@@ -1,12 +1,13 @@
 package cz.todr.brewery.core.temperature;
 
 import cz.todr.brewery.core.conf.Config;
-import cz.todr.brewery.core.hardware.Hardware;
-import cz.todr.brewery.core.heating.Heating;
+import cz.todr.brewery.core.heating.api.Heating;
+import cz.todr.brewery.core.temperature.api.Temperature;
+import cz.todr.brewery.core.temperature.impl.TemperatureChangeRate;
 import cz.todr.brewery.core.utils.SingleThreadedExecutor;
 import cz.todr.brewery.core.utils.Utils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import cz.todr.brewery.hardware.api.Hardware;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -14,10 +15,10 @@ import javax.annotation.PostConstruct;
 import java.util.concurrent.TimeUnit;
 
 
+@Slf4j
 @Controller
 public class TemperatureLogger {
-	private static final Logger LOG = LoggerFactory.getLogger(TemperatureLogger.class);
-	
+
 	@Autowired
 	private Config config;
 	
@@ -28,14 +29,14 @@ public class TemperatureLogger {
 	private Hardware hw;
 	
 	@Autowired
-	private TemperatureChangeRate heatingRate;
+	private TemperatureChangeRate temperatureChangeRate;
 	
 	@Autowired
 	private Heating heating;
-	
-	@Autowired
-	private TemperatureControlLoop controller;
-	
+
+    @Autowired
+    private Temperature temperature;
+
 	@PostConstruct
 	private void init() {
 		long rateMs = config.getPeriodicLogRate().toMillis();	
@@ -44,13 +45,13 @@ public class TemperatureLogger {
 	
 	private void log() {
 		try {
-			LOG.info("Temp {} (diff {}°C/min), required temp {}, heating {}",
+			log.info("Temp {} (diff {}°C/min), required temp {}, heating {}",
 					Utils.formatFloat(hw.getTemp()),
-					Utils.formatFloat(heatingRate.getHeatingRate()),
-					Utils.formatFloat(controller.getRequiredTemp()),
+					Utils.formatFloat(temperatureChangeRate.getTemperatureChangeRate()),
+					Utils.formatFloat(temperature.getRequestedTemperature()),
 					heating.isHeating() ? "ON" : "OFF");
 		} catch (RuntimeException e) {
-			LOG.error("Exception during periodic logging", e);
+			log.error("Exception during periodic logging", e);
 		}
 	}
 	
