@@ -8,5 +8,5 @@ public interface Hardware {
 
 	void display(String firstRow, String secondRow);
 
-	void registerButtonListener(ButtonEnum button, ButtonStateListener listener);
+	void registerButtonListener(ButtonStateListener listener);
 }

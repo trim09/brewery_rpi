@@ -4,18 +4,16 @@ import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.PinPullResistance;
 import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
 import com.pi4j.io.gpio.event.GpioPinListenerDigital;
-import cz.todr.brewery.core.utils.SingleThreadedExecutor;
 import cz.todr.brewery.hardware.api.ButtonEnum;
 import cz.todr.brewery.hardware.api.ButtonStateListener;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.*;
+import java.util.Objects;
 
 @Slf4j
 public class Buttons {
 
-    private final Map<ButtonEnum, List<ButtonStateListener>> listeners = new HashMap<>();
-
+    private ButtonStateListener listener = (b, p) -> log.info("No listener for button {}", b);
 
     public Buttons() {
         for (ButtonEnum button : ButtonEnum.values()) {
@@ -34,19 +32,12 @@ public class Buttons {
                 .ifPresent(button -> dispatch(button, event.getState().isLow()));
     }
 
-    public void registerListener(ButtonEnum button, ButtonStateListener listener) {
-        Objects.requireNonNull(button);
-        Objects.requireNonNull(listener);
-
-        List<ButtonStateListener> buttonStateListeners = listeners.computeIfAbsent(button, b -> new ArrayList<>());
-        buttonStateListeners.add(listener);
+    public void registerListener(ButtonStateListener newListener) {
+        Objects.requireNonNull(newListener);
+        listener = newListener;
     }
 
     private void dispatch(ButtonEnum button, boolean pressed) {
-        SingleThreadedExecutor.getExecutor().execute(() -> {
-            for (ButtonStateListener buttonListener : listeners.getOrDefault(button, Collections.emptyList())) {
-                buttonListener.stateChanged(button, pressed);
-            }
-        });
+        listener.stateChanged(button, pressed); /* TODO execute in common thread? */
     }
 }

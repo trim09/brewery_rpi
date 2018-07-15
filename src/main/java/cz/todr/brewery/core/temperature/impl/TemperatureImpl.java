@@ -40,6 +40,6 @@ public class TemperatureImpl implements Temperature {
     private void update() {
         val heatingOn = hardware.getTemp() < requestedTemperature;
         val changeRateExceeded = temperatureChangeRate.getTemperatureChangeRate() > config.getMaximumHeatingSpeed();
-        heating.requestHeatingState(!changeRateExceeded && heatingOn);
+        heating.setHeating(!changeRateExceeded && heatingOn);
     }
 }

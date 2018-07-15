@@ -9,8 +9,7 @@ import lombok.val;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Objects;
 
 @Slf4j
 public class DesktopSwingHardware {
@@ -18,10 +17,10 @@ public class DesktopSwingHardware {
     private final JTextArea lcd = new JTextArea();
     private final JLabel heating = new JLabel();
     private final JLabel temp = new JLabel();
-    private final Map<ButtonEnum, ButtonStateListener> listeners = new ConcurrentHashMap<>();
+    private ButtonStateListener listener =  (b, p) -> log.info("No listener for button {}", b);
 
     public DesktopSwingHardware() {
-        JFrame frame = new JFrame();
+        JFrame frame = new JFrame("This is only a simulator - you have to run it on RaspberryPi");
 
         JButton up = new JButton("up");
         JButton mid = new JButton("mid");
@@ -107,12 +106,16 @@ public class DesktopSwingHardware {
         private void testKey(KeyEvent e, boolean pressed) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_W:
+                case KeyEvent.VK_UP:
                     buttonStatusUpdate(ButtonEnum.UP, pressed);
                     break;
                 case KeyEvent.VK_S:
+                case KeyEvent.VK_LEFT:
+                case KeyEvent.VK_RIGHT:
                     buttonStatusUpdate(ButtonEnum.MID, pressed);
                     break;
                 case KeyEvent.VK_X:
+                case KeyEvent.VK_DOWN:
                     buttonStatusUpdate(ButtonEnum.DOWN, pressed);
                     break;
             }
@@ -133,12 +136,11 @@ public class DesktopSwingHardware {
     }
 
     private void buttonStatusUpdate(ButtonEnum button, boolean pressed) {
-        val listener = listeners.getOrDefault(button, (b, p) -> log.info("No listener for button {}", b));
-        listener.stateChanged(button, pressed);
+        listener.stateChanged(button, pressed); /* TODO execute in common thread? */
     }
 
-    public void registerButtonListener(ButtonEnum button, ButtonStateListener listener) {
-        log.info("Registering {} button listener", button);
-        listeners.put(button, listener);
+    public void registerButtonListener(ButtonStateListener newListener) {
+        Objects.requireNonNull(listener);
+        listener = newListener;
     }
 }

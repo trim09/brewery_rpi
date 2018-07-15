@@ -2,7 +2,6 @@ package cz.todr.brewery.hardware.impl.raspberry;
 
 import com.pi4j.component.lcd.LCD;
 import cz.todr.brewery.NotOnRaspberryException;
-import cz.todr.brewery.hardware.api.ButtonEnum;
 import cz.todr.brewery.hardware.api.ButtonStateListener;
 import cz.todr.brewery.hardware.api.Hardware;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +46,7 @@ public class RaspberryHardware implements Hardware {
 	}
 
 	@Override
-	public void registerButtonListener(ButtonEnum button, ButtonStateListener listener) {
-		buttons.registerListener(button, listener);
+	public void registerButtonListener(ButtonStateListener listener) {
+		buttons.registerListener(listener);
 	}
 }

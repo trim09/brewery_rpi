@@ -1,6 +1,5 @@
 package cz.todr.brewery.hardware.impl.desktop;
 
-import cz.todr.brewery.hardware.api.ButtonEnum;
 import cz.todr.brewery.hardware.api.ButtonStateListener;
 import cz.todr.brewery.hardware.api.Hardware;
 
@@ -40,7 +39,7 @@ public class DesktopHardwareSimulator implements Hardware {
     }
 
     @Override
-    public void registerButtonListener(ButtonEnum button, ButtonStateListener listener) {
-        desktopSwingHardware.registerButtonListener(button, listener);
+    public void registerButtonListener(ButtonStateListener listener) {
+        desktopSwingHardware.registerButtonListener(listener);
     }
 }

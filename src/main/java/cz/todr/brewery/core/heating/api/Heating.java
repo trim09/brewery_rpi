@@ -4,6 +4,6 @@ public interface Heating {
 
 	boolean isHeating();
 
-	void requestHeatingState(boolean on);
+	void setHeating(boolean on);
 
 }

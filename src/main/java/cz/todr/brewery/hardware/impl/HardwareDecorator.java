@@ -1,6 +1,5 @@
 package cz.todr.brewery.hardware.impl;
 
-import cz.todr.brewery.hardware.api.ButtonEnum;
 import cz.todr.brewery.hardware.api.ButtonStateListener;
 import cz.todr.brewery.hardware.api.Hardware;
 import lombok.AllArgsConstructor;
@@ -28,7 +27,7 @@ public class HardwareDecorator implements Hardware {
         hardware.display(firstRow, secondRow);
     }
 
-    public void registerButtonListener(ButtonEnum button, ButtonStateListener listener) {
-        hardware.registerButtonListener(button, listener);
+    public void registerButtonListener(ButtonStateListener listener) {
+        hardware.registerButtonListener(listener);
     }
 }

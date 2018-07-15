@@ -77,6 +77,6 @@ public class BreweryRest {
     @RequestMapping(value = "/temp", method = RequestMethod.POST, consumes = "application/json")
     public void setStatus(@Valid @RequestBody SetTemp temp) {
         LOG.info("Rest reqest: set temp={}", temp.getTemp());
-        breweryCore.setTemp(temp.getTemp());
+        breweryCore.setRequiredTemp(temp.getTemp());
     }
 }

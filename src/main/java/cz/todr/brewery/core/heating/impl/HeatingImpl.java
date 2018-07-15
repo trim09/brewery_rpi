@@ -22,7 +22,7 @@ public class HeatingImpl implements Heating {
 	}
 
 	@Override
-	public void requestHeatingState(boolean on) {
+	public void setHeating(boolean on) {
 		requestedState = on;
 	}
 
