@@ -17,7 +17,7 @@ public class DesktopSwingHardware {
     private final JTextArea lcd = new JTextArea();
     private final JLabel heating = new JLabel();
     private final JLabel temp = new JLabel();
-    private ButtonStateListener listener =  (b, p) -> log.info("No listener for button {}", b);
+    private ButtonStateListener listener = (b) -> log.info("No listener for button {}", b);
 
     public DesktopSwingHardware() {
         JFrame frame = new JFrame("This is only a simulator - you have to run it on RaspberryPi");
@@ -136,7 +136,7 @@ public class DesktopSwingHardware {
     }
 
     private void buttonStatusUpdate(ButtonEnum button, boolean pressed) {
-        listener.stateChanged(button, pressed); /* TODO execute in common thread? */
+        listener.pressed(button); /* TODO execute in common thread? */
     }
 
     public void registerButtonListener(ButtonStateListener newListener) {

@@ -25,17 +25,13 @@ public class ScreenManager {
         breweryCore.registerButtonListener(this::buttonsListener);
     }
 
-    private void buttonsListener(ButtonEnum button, boolean pressed) {
+    private void buttonsListener(ButtonEnum button) {
         switch(button) {
             case UP:
-                if (pressed) {
-                    breweryCore.setRequiredTemp(breweryCore.getRequiredTemp() + 1);
-                }
+                breweryCore.setRequiredTemp(breweryCore.getRequiredTemp() + 1);
                 break;
             case DOWN:
-                if (pressed) {
-                    breweryCore.setRequiredTemp(breweryCore.getRequiredTemp() - 1);
-                }
+                breweryCore.setRequiredTemp(breweryCore.getRequiredTemp() - 1);
                 break;
             case MID:
                 break;

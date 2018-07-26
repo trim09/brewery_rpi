@@ -13,7 +13,7 @@ import java.util.Objects;
 @Slf4j
 public class Buttons {
 
-    private ButtonStateListener listener = (b, p) -> log.info("No listener for button {}", b);
+    private ButtonStateListener listener = (b) -> log.info("No listener for button {}", b);
 
     public Buttons() {
         for (ButtonEnum button : ButtonEnum.values()) {
@@ -38,6 +38,6 @@ public class Buttons {
     }
 
     private void dispatch(ButtonEnum button, boolean pressed) {
-        listener.stateChanged(button, pressed); /* TODO execute in common thread? */
+        listener.pressed(button); /* TODO execute in common thread? */
     }
 }
