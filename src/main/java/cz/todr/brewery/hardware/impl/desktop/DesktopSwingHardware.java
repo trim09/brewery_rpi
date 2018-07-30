@@ -1,5 +1,6 @@
 package cz.todr.brewery.hardware.impl.desktop;
 
+import cz.todr.brewery.core.utils.SingleThreadedExecutor;
 import cz.todr.brewery.hardware.api.ButtonEnum;
 import cz.todr.brewery.hardware.api.ButtonStateListener;
 import lombok.AllArgsConstructor;
@@ -136,7 +137,9 @@ public class DesktopSwingHardware {
     }
 
     private void buttonStatusUpdate(ButtonEnum button, boolean pressed) {
-        listener.pressed(button); /* TODO execute in common thread? */
+        if (pressed) {
+            SingleThreadedExecutor.getExecutor().execute(() -> listener.pressed(button));
+        }
     }
 
     public void registerButtonListener(ButtonStateListener newListener) {

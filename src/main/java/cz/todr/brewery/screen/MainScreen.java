@@ -1,21 +1,24 @@
 package cz.todr.brewery.screen;
 
 import cz.todr.brewery.core.BreweryCoreImpl;
+import cz.todr.brewery.hardware.api.ButtonEnum;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.time.Instant;
 
 @Slf4j
-@Service
+@Component
 public class MainScreen implements Screen{
     @Autowired
     private BreweryCoreImpl core;
 
     private final Instant startTime = Instant.now();
+
+    private ScreenExitEvent onExitCallback;
 
     @Override
     public String getText() {
@@ -41,5 +44,15 @@ public class MainScreen implements Screen{
         } else  {
             return String.format("%dm%02d", dur.toMinutes(), dur.minusMinutes(dur.toMinutes()).getSeconds());
         }
+    }
+
+    @Override
+    public void onKeyPressed(ButtonEnum button) {
+        onExitCallback.exit(null);
+    }
+
+    @Override
+    public void onEnter(ScreenExitEvent onExitCallback) {
+        this.onExitCallback = onExitCallback;
     }
 }

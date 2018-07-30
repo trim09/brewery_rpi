@@ -9,39 +9,57 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 
 @Controller
 @Slf4j
 public class ScreenManager {
 
     @Autowired
-    private MainScreen mainScreen;
+    private BreweryCore breweryCore;
 
     @Autowired
-    private BreweryCore breweryCore;
+    private List<Screen> screens;
+
+    @Autowired
+    private MainScreen initScreen;
+
+    @Autowired
+    private MenuScreen defaultScreen;
+
+    private Screen current;
 
     @PostConstruct
     private void init() {
+        current = initScreen;
+        current.onEnter(this::exit);
         breweryCore.registerButtonListener(this::buttonsListener);
     }
 
-    private void buttonsListener(ButtonEnum button) {
-        switch(button) {
-            case UP:
-                breweryCore.setRequiredTemp(breweryCore.getRequiredTemp() + 1);
-                break;
-            case DOWN:
-                breweryCore.setRequiredTemp(breweryCore.getRequiredTemp() - 1);
-                break;
-            case MID:
-                break;
+    private void exit(Class<? extends Screen> next) {
+        val oldScreen = current;
+        if (next == null) {
+            current = defaultScreen;
+        } else {
+            current = screens.stream().filter(s -> s.getClass() == next).findAny().orElse(defaultScreen);
         }
+
+        log.info("Screen transition: {} -> {} ({})", getScreenName(oldScreen), getScreenName(current), next);
+
+        current.onEnter(this::exit);
+    }
+
+    private String getScreenName(Screen screen) {
+        return screen.getClass().getSimpleName();
+    }
+
+    private void buttonsListener(ButtonEnum button) {
+        log.debug("KeyEvent {}", button);
+        current.onKeyPressed(button);
     }
 
     @Scheduled(initialDelay = 1000, fixedRate = 1000)
     public void updateDisplay() {
-        val text = mainScreen.getText();
-        breweryCore.display(text);
+        breweryCore.display(current.getText());
     }
-
 }

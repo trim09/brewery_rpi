@@ -65,6 +65,7 @@ public class BreweryCoreImpl implements BreweryCore {
 	@Override
 	public void display(String text) {
 		val lines = text.split("\n");
-		executor.executeAndAwait(() -> hardware.display(lines[0], lines[1]));
+
+		executor.executeAndAwait(() -> hardware.display(lines[0], lines.length > 1 ? lines[1] : ""));
 	}
 }
