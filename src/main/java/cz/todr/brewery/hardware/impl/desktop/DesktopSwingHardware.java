@@ -138,7 +138,7 @@ public class DesktopSwingHardware {
 
     private void buttonStatusUpdate(ButtonEnum button, boolean pressed) {
         if (pressed) {
-            SingleThreadedExecutor.getExecutor().execute(() -> listener.pressed(button));
+            SingleThreadedExecutor.executeAndAwait(() -> listener.pressed(button));
         }
     }
 

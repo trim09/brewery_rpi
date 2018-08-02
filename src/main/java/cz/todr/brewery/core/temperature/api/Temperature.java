@@ -2,7 +2,7 @@ package cz.todr.brewery.core.temperature.api;
 
 public interface Temperature {
 
-    float getRequestedTemperature();
+    Float getRequestedTemperature();
 
-    void requestTemperature(float temperature);
+    void requestTemperature(Float temperature);
 }

@@ -5,13 +5,15 @@ import cz.todr.brewery.hardware.api.ButtonStateListener;
 public interface BreweryCore {
     float getTemp();
 
-    float getRequiredTemp();
+    Float getRequiredTemp();
 
     boolean isHeating();
 
-    void setRequiredTemp(float temp);
+    void setRequiredTemp(Float temp);
 
     void display(String text);
 
     void registerButtonListener(ButtonStateListener listener);
+
+    Float getTemperatureChangeRate();
 }

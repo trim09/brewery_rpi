@@ -24,21 +24,21 @@ public class TemperatureImpl implements Temperature {
     @Autowired
     private Config config;
 
-    private float requestedTemperature;
+    private Float requestedTemperature;
 
     @Override
-    public float getRequestedTemperature() {
+    public Float getRequestedTemperature() {
         return requestedTemperature;
     }
 
     @Override
-    public void requestTemperature(float temperature) {
+    public void requestTemperature(Float temperature) {
         requestedTemperature = temperature;
     }
 
     @Scheduled(fixedRate = 1000)
     private void update() {
-        val heatingOn = hardware.getTemp() < requestedTemperature;
+        val heatingOn = hardware.getTemp() < (requestedTemperature == null ? 9999. : requestedTemperature);
         val changeRateExceeded = temperatureChangeRate.getTemperatureChangeRate() > config.getMaximumHeatingSpeed();
         heating.setHeating(!changeRateExceeded && heatingOn);
     }

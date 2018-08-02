@@ -1,6 +1,7 @@
 package cz.todr.brewery.web;
 
 import cz.todr.brewery.core.BreweryCore;
+import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,35 +23,12 @@ public class BreweryRest {
     @Autowired
     private BreweryCore breweryCore;
 
+    @Data
     private static class Status {
-
-        private final long timestamp;
+        private final long timestamp = Instant.now().toEpochMilli();
         private final double temp;
-        private final double requiredTemp;
+        private final Float requiredTemp;
         private final boolean heating;
-
-        private Status(double temp, double requiredTemp, boolean heating) {
-            this.timestamp = Instant.now().toEpochMilli();
-            this.temp = temp;
-            this.requiredTemp = requiredTemp;
-            this.heating = heating;
-        }
-
-        public long getTimestamp() {
-            return timestamp;
-        }
-
-        public double getRequiredTemp() {
-            return requiredTemp;
-        }
-
-        public double getTemp() {
-            return temp;
-        }
-
-        public boolean isHeating() {
-            return heating;
-        }
     }
 
     private static class SetTemp {
@@ -70,7 +48,7 @@ public class BreweryRest {
 
     @RequestMapping(value = "/status", produces = "application/json")
     public Status getStatus() {
-        LOG.debug("Rest reqest: get status");
+        LOG.debug("Rest request: get status");
         return new Status(breweryCore.getTemp(), breweryCore.getRequiredTemp(), breweryCore.isHeating());
     }
 

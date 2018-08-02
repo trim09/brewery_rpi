@@ -12,7 +12,7 @@ import java.time.Instant;
 
 @Slf4j
 @Component
-public class MainScreen implements Screen{
+public class MeasureTempScreen implements Screen{
     @Autowired
     private BreweryCoreImpl core;
 
@@ -22,28 +22,10 @@ public class MainScreen implements Screen{
 
     @Override
     public String getText() {
-        val isHeating = core.isHeating();
         val temp = core.getTemp();
-        val required = core.getRequiredTemp();
-
         val timeDiff = Duration.between(startTime, Instant.now());
 
-        val line0 = String.format("Temp%6.2f   %s", temp, isHeating ? "ON" : "OFF");
-        val line1 = String.format("Req%7.2f %5s", required, durationToString(timeDiff));
-
-        return line0 + "\n" + line1;
-    }
-
-    private String durationToString(Duration dur) {
-        if (dur.toDays() >= 99) {
-            return String.format("%dd", dur.toDays());
-        } else if (dur.toHours() > 99) {
-            return String.format("%dd%02d", dur.toDays(), dur.minusDays(dur.toDays()).toHours());
-        } else  if (dur.toMinutes() > 99) {
-            return String.format("%dh%02d", dur.toHours(), dur.minusHours(dur.toHours()).toMinutes());
-        } else  {
-            return String.format("%dm%02d", dur.toMinutes(), dur.minusMinutes(dur.toMinutes()).getSeconds());
-        }
+        return String.format("Temp%6.2f %5s", temp, ScreenUtils.durationToString(timeDiff));
     }
 
     @Override
@@ -53,6 +35,7 @@ public class MainScreen implements Screen{
 
     @Override
     public void onEnter(ScreenExitEvent onExitCallback) {
+        core.setRequiredTemp(null);
         this.onExitCallback = onExitCallback;
     }
 }

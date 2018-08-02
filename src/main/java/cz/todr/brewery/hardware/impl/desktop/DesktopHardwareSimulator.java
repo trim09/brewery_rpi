@@ -1,5 +1,6 @@
 package cz.todr.brewery.hardware.impl.desktop;
 
+import com.google.common.base.Preconditions;
 import cz.todr.brewery.hardware.api.ButtonStateListener;
 import cz.todr.brewery.hardware.api.Hardware;
 
@@ -35,6 +36,8 @@ public class DesktopHardwareSimulator implements Hardware {
 
     @Override
     public void display(String firstRow, String secondRow) {
+        Preconditions.checkArgument(firstRow.length() <= 20);
+        Preconditions.checkArgument(secondRow.length() <= 20);
         desktopSwingHardware.setLcdText(firstRow, secondRow);
     }
 

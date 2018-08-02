@@ -2,6 +2,7 @@ package cz.todr.brewery.core;
 
 import cz.todr.brewery.core.heating.api.Heating;
 import cz.todr.brewery.core.temperature.api.Temperature;
+import cz.todr.brewery.core.temperature.impl.TemperatureChangeRate;
 import cz.todr.brewery.core.utils.SingleThreadedExecutor;
 import cz.todr.brewery.hardware.api.ButtonStateListener;
 import cz.todr.brewery.hardware.api.Hardware;
@@ -29,7 +30,10 @@ public class BreweryCoreImpl implements BreweryCore {
 
 	@Autowired
 	private SingleThreadedExecutor executor;
-	
+
+	@Autowired
+	private TemperatureChangeRate temperatureChangeRate;
+
 	@PostConstruct
 	private void init() {
 		Package pkg = this.getClass().getPackage(); 
@@ -42,7 +46,7 @@ public class BreweryCoreImpl implements BreweryCore {
 	}
 	
 	@Override
-	public float getRequiredTemp() {
+	public Float getRequiredTemp() {
 		return executor.executeAndAwait(temperature::getRequestedTemperature);
 	}
 	
@@ -52,7 +56,12 @@ public class BreweryCoreImpl implements BreweryCore {
 	}
 
 	@Override
-	public void setRequiredTemp(float temp) {
+	public Float getTemperatureChangeRate() {
+		return executor.executeAndAwait(() -> temperatureChangeRate.getTemperatureChangeRate());
+	}
+
+	@Override
+	public void setRequiredTemp(Float temp) {
 		log.info("New required temp: {}", temp);
 		executor.executeAndAwait(() -> temperature.requestTemperature(temp));
 	}

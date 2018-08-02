@@ -22,7 +22,7 @@ public class ScreenManager {
     private List<Screen> screens;
 
     @Autowired
-    private MainScreen initScreen;
+    private RegulateTempScreen initScreen;
 
     @Autowired
     private MenuScreen defaultScreen;

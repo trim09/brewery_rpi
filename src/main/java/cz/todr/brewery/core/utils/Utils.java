@@ -7,7 +7,10 @@ public class Utils {
 	
 	private static final NumberFormat formatter = new DecimalFormat("#0.00");
 	
-	public static String formatFloat(float number) {
+	public static String formatFloat(Float number) {
+		if (number == null) {
+			return "null";
+		}
 		return formatter.format(number);
 	}
 }
