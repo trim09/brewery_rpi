@@ -7,13 +7,12 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
-@Controller
 @Slf4j
 public class SingleThreadedExecutor {
 	private static final String CORE_THREAD_NAME = "brewery-core-thread";
 
-	private final static ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor(
-			runnable -> new Thread(runnable, CORE_THREAD_NAME));
+	private static final ScheduledExecutorService executor =
+			Executors.newSingleThreadScheduledExecutor(runnable -> new Thread(runnable, CORE_THREAD_NAME));
 
 	public static <T> T executeAndAwait(Callable<T> task) {
 		try {

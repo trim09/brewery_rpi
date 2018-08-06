@@ -29,9 +29,6 @@ public class BreweryCoreImpl implements BreweryCore {
 	private Hardware hardware;
 
 	@Autowired
-	private SingleThreadedExecutor executor;
-
-	@Autowired
 	private TemperatureChangeRate temperatureChangeRate;
 
 	@PostConstruct
@@ -42,39 +39,38 @@ public class BreweryCoreImpl implements BreweryCore {
 	
 	@Override
 	public float getTemp() {
-		return executor.executeAndAwait(thermometer::getTemp);
+		return SingleThreadedExecutor.executeAndAwait(thermometer::getTemp);
 	}
 	
 	@Override
 	public Float getRequiredTemp() {
-		return executor.executeAndAwait(temperature::getRequestedTemperature);
+		return SingleThreadedExecutor.executeAndAwait(temperature::getRequestedTemperature);
 	}
 	
 	@Override
 	public boolean isHeating() {
-		return executor.executeAndAwait(heating::isHeating);
+		return SingleThreadedExecutor.executeAndAwait(heating::isHeating);
 	}
 
 	@Override
 	public Float getTemperatureChangeRate() {
-		return executor.executeAndAwait(() -> temperatureChangeRate.getTemperatureChangeRate());
+		return SingleThreadedExecutor.executeAndAwait(() -> temperatureChangeRate.getTemperatureChangeRate());
 	}
 
 	@Override
 	public void setRequiredTemp(Float temp) {
 		log.info("New required temp: {}", temp);
-		executor.executeAndAwait(() -> temperature.requestTemperature(temp));
+		SingleThreadedExecutor.executeAndAwait(() -> temperature.requestTemperature(temp));
 	}
 
 	@Override
 	public void registerButtonListener(ButtonStateListener listener) {
-		executor.executeAndAwait(() -> hardware.registerButtonListener(listener));
+		SingleThreadedExecutor.executeAndAwait(() -> hardware.registerButtonListener(listener));
 	}
 
 	@Override
 	public void display(String text) {
 		val lines = text.split("\n");
-
-		executor.executeAndAwait(() -> hardware.display(lines[0], lines.length > 1 ? lines[1] : ""));
+		SingleThreadedExecutor.executeAndAwait(() -> hardware.display(lines[0], lines.length > 1 ? lines[1] : ""));
 	}
 }
