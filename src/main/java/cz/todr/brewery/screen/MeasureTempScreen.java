@@ -12,7 +12,7 @@ import java.time.Instant;
 
 @Slf4j
 @Component
-public class MeasureTempScreen implements Screen{
+public class MeasureTempScreen implements Screen {
     @Autowired
     private BreweryCoreImpl core;
 

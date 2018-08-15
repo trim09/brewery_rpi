@@ -22,7 +22,8 @@ public class MenuScreen implements Screen {
 
     private List<MenuItem> menu = ImmutableList.of(
             new MenuItem("Measure temp", MeasureTempScreen.class),
-            new MenuItem("Regulate temp", RegulateTempScreen.class)
+            new MenuItem("Regulate temp", RegulateTempScreen.class),
+            new MenuItem("Automatic brewing", AutomaticBrewingScreen.class)
     );
 
     private int cursorPosition;
@@ -41,7 +42,10 @@ public class MenuScreen implements Screen {
 
     @Override
     public String getText() {
-        return menu.stream().map(MenuItem::getText).collect(Collectors.joining("\n"));
+        return menu.stream()
+                .skip(cursorPosition)
+                .map(MenuItem::getText)
+                .collect(Collectors.joining("\n"));
     }
 
     @Override

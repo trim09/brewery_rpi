@@ -38,7 +38,7 @@ public class TemperatureImpl implements Temperature {
 
     @Scheduled(fixedRate = 1000)
     private void update() {
-        val heatingOn = hardware.getTemp() < (requestedTemperature == null ? 9999. : requestedTemperature);
+        val heatingOn = requestedTemperature != null && (hardware.getTemp() < requestedTemperature);
         val changeRateExceeded = temperatureChangeRate.getTemperatureChangeRate() > config.getMaximumHeatingSpeed();
         heating.setHeating(!changeRateExceeded && heatingOn);
     }
