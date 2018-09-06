@@ -45,4 +45,14 @@ public class DesktopHardwareSimulator implements Hardware {
     public void registerButtonListener(ButtonStateListener listener) {
         desktopSwingHardware.registerButtonListener(listener);
     }
+
+    @Override
+    public void setCursorOff() {
+        desktopSwingHardware.setCursorOff();
+    }
+
+    @Override
+    public void setCursorAt(int row, int column) {
+        desktopSwingHardware.setCursorAt(row, column);
+    }
 }

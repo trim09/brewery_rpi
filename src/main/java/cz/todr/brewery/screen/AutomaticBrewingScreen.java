@@ -1,7 +1,7 @@
 package cz.todr.brewery.screen;
 
 import com.google.common.collect.ImmutableList;
-import cz.todr.brewery.core.BreweryCoreImpl;
+import cz.todr.brewery.core.impl.BreweryCoreImpl;
 import cz.todr.brewery.hardware.api.ButtonEnum;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;

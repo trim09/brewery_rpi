@@ -8,5 +8,9 @@ public interface Hardware {
 
 	void display(String firstRow, String secondRow);
 
+	void setCursorOff();
+
+	void setCursorAt(int row, int column);
+
 	void registerButtonListener(ButtonStateListener listener);
 }

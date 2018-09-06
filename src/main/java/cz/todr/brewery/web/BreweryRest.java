@@ -1,6 +1,6 @@
 package cz.todr.brewery.web;
 
-import cz.todr.brewery.core.BreweryCore;
+import cz.todr.brewery.core.api.BreweryCore;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

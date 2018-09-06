@@ -1,11 +1,10 @@
 package cz.todr.brewery.hardware.impl.desktop;
 
-import cz.todr.brewery.core.utils.SingleThreadedExecutor;
+import cz.todr.brewery.core.impl.utils.SingleThreadedExecutor;
 import cz.todr.brewery.hardware.api.ButtonEnum;
 import cz.todr.brewery.hardware.api.ButtonStateListener;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,10 +14,15 @@ import java.util.Objects;
 @Slf4j
 public class DesktopSwingHardware {
 
-    private final JTextArea lcd = new JTextArea();
+    private final JTextPane lcd = new JTextPane();
     private final JLabel heating = new JLabel();
     private final JLabel temp = new JLabel();
-    private ButtonStateListener listener = (b) -> log.info("No listener for button {}", b);
+    private ButtonStateListener listener = b -> log.info("No listener for button {}", b);
+    private String originalTextFirstRow = "";
+    private String originalTextSecondRow = "";
+    private boolean cursorOn;
+    private int cursorRow;
+    private int cursorColumn;
 
     public DesktopSwingHardware() {
         JFrame frame = new JFrame("This is only a simulator - you have to run it on RaspberryPi");
@@ -43,8 +47,7 @@ public class DesktopSwingHardware {
         frame.add(heating,  BorderLayout.NORTH);
         frame.add(temp,  BorderLayout.SOUTH);
 
-        val font = lcd.getFont();
-        lcd.setFont(new Font(font.getName(), font.getStyle(), font.getSize() + 16));
+        lcd.setContentType("text/html");
 
         frame.setSize(350, 200);
         frame.setVisible(true);
@@ -69,12 +72,34 @@ public class DesktopSwingHardware {
         KeyStroke escape = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE,0);
 
         JRootPane rootPane = frame.getRootPane();
-        rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escape, "closeWindow");
-        rootPane.getActionMap().put("closeWindow", dispatchClosing);
+        rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(escape, "closeWindow");
+        rootPane.getActionMap()
+                .put("closeWindow", dispatchClosing);
     }
 
     public void setLcdText(String firstRow, String secondRow) {
-        SwingUtilities.invokeLater(() -> lcd.setText(String.format("%.16s\n%.16s", firstRow, secondRow)));
+        originalTextFirstRow = String.format("%.16s", firstRow);
+        originalTextSecondRow = String.format("%.16s", secondRow);
+
+        SwingUtilities.invokeLater(() -> lcd.setText(convertToHtmlWithCursor()));
+    }
+
+    private String convertToHtmlWithCursor() {
+        String row1 = originalTextFirstRow;
+        String row2 = originalTextSecondRow;
+        if (cursorOn) {
+            if (cursorRow == 0) {
+                row1 = injectCursor(row1, cursorColumn);
+            } else {
+                row2 = injectCursor(row2, cursorColumn);
+            }
+        }
+        return "<html>" + row1 + "<br>" + row2 + "</html>";
+    }
+
+    private String injectCursor(String text, int column) {
+        return text.substring(0, column) + "<b style=\"background-color: red\">" + text.charAt(column) + "</b>" + text.substring(column+1);
     }
 
     public void setTemp(float temp) {
@@ -91,6 +116,18 @@ public class DesktopSwingHardware {
                 heating.setBackground(Color.CYAN);
             }
         });
+    }
+
+    public void setCursorOff() {
+        cursorOn = false;
+        SwingUtilities.invokeLater(() -> lcd.setText(convertToHtmlWithCursor()));
+    }
+
+    public void setCursorAt(int row, int column) {
+        cursorOn = true;
+        cursorRow = row;
+        cursorColumn = column;
+        SwingUtilities.invokeLater(() -> lcd.setText(convertToHtmlWithCursor()));
     }
 
     private class MyKeyAdapter extends KeyAdapter {

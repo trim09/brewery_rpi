@@ -4,7 +4,7 @@ import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.PinPullResistance;
 import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
 import com.pi4j.io.gpio.event.GpioPinListenerDigital;
-import cz.todr.brewery.core.utils.SingleThreadedExecutor;
+import cz.todr.brewery.core.impl.utils.SingleThreadedExecutor;
 import cz.todr.brewery.hardware.api.ButtonEnum;
 import cz.todr.brewery.hardware.api.ButtonStateListener;
 import lombok.extern.slf4j.Slf4j;

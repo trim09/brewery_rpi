@@ -2,9 +2,11 @@ package cz.todr.brewery.screen;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import cz.todr.brewery.core.api.BreweryCore;
 import cz.todr.brewery.hardware.api.ButtonEnum;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,6 +16,9 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 public class MenuScreen implements Screen {
+    @Autowired
+    private BreweryCore core;
+
     @Data
     private static class MenuItem {
         private final String text;
@@ -23,7 +28,7 @@ public class MenuScreen implements Screen {
     private List<MenuItem> menu = ImmutableList.of(
             new MenuItem("Measure temp", MeasureTempScreen.class),
             new MenuItem("Regulate temp", RegulateTempScreen.class),
-            new MenuItem("Automatic brewing", AutomaticBrewingScreen.class)
+            new MenuItem("Auto brewing", AutomaticBrewingScreen.class)
     );
 
     private int cursorPosition;
@@ -32,7 +37,9 @@ public class MenuScreen implements Screen {
 
     private Map<ButtonEnum, Runnable> actions = ImmutableMap.of(
                 ButtonEnum.UP, () -> cursorPosition = Math.max(0, cursorPosition - 1),
-                ButtonEnum.MID, () -> enterMenu(cursorPosition),
+                ButtonEnum.MID, () -> {
+                    core.setCursorOff();
+                    enterMenu(cursorPosition);},
                 ButtonEnum.DOWN, () -> cursorPosition = Math.min(menu.size() - 1, cursorPosition + 1)
             );
 
@@ -55,6 +62,7 @@ public class MenuScreen implements Screen {
 
     @Override
     public void onEnter(ScreenExitEvent onExitCallback) {
+        core.setCursorAt(0, 0);
         this.onExitCallback = onExitCallback;
         cursorPosition = 0;
     }

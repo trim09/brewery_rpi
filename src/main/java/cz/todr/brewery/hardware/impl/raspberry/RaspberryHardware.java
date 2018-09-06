@@ -49,4 +49,14 @@ public class RaspberryHardware implements Hardware {
 	public void registerButtonListener(ButtonStateListener listener) {
 		buttons.registerListener(listener);
 	}
+
+	@Override
+	public void setCursorOff() {
+		lcd.setCursorHome();
+	}
+
+	@Override
+	public void setCursorAt(int row, int column) {
+		lcd.setCursorPosition(row, column);
+	}
 }

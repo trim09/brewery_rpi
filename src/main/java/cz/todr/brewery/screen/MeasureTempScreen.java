@@ -1,6 +1,6 @@
 package cz.todr.brewery.screen;
 
-import cz.todr.brewery.core.BreweryCoreImpl;
+import cz.todr.brewery.core.impl.BreweryCoreImpl;
 import cz.todr.brewery.hardware.api.ButtonEnum;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;

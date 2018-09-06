@@ -1,6 +1,6 @@
 package cz.todr.brewery.screen;
 
-import cz.todr.brewery.core.BreweryCoreImpl;
+import cz.todr.brewery.core.impl.BreweryCoreImpl;
 import cz.todr.brewery.hardware.api.ButtonEnum;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -36,13 +36,23 @@ public class RegulateTempScreen implements Screen {
 
     @Override
     public void onKeyPressed(ButtonEnum button) {
-        onExitCallback.exit(null);
+        switch (button) {
+            case UP:
+                core.setRequiredTemp(core.getRequiredTemp() + 0.5f);
+                break;
+            case DOWN:
+                core.setRequiredTemp(core.getRequiredTemp() - 0.5f);
+                break;
+            case MID:
+                onExitCallback.exit(null);
+                break;
+        }
     }
 
     @Override
     public void onEnter(ScreenExitEvent onExitCallback) {
         if (core.getRequiredTemp() == null) {
-            core.setRequiredTemp(0.F);
+            core.setRequiredTemp(20.F);
         }
         this.onExitCallback = onExitCallback;
     }

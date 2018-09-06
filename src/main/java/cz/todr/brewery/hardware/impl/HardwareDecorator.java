@@ -27,6 +27,16 @@ public class HardwareDecorator implements Hardware {
         hardware.display(firstRow, secondRow);
     }
 
+    @Override
+    public void setCursorOff() {
+        hardware.setCursorOff();
+    }
+
+    @Override
+    public void setCursorAt(int row, int column) {
+        hardware.setCursorAt(row, column);
+    }
+
     public void registerButtonListener(ButtonStateListener listener) {
         hardware.registerButtonListener(listener);
     }
