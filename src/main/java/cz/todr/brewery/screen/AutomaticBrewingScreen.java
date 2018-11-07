@@ -25,9 +25,9 @@ public class AutomaticBrewingScreen implements Screen {
     }
 
     private static final List<Recipe> recipes = ImmutableList.of(
-            new Recipe(52.f, Duration.of(15, ChronoUnit.MINUTES)),
-            new Recipe(72.f, Duration.of(15, ChronoUnit.MINUTES)),
-            new Recipe(76.f, Duration.of(15, ChronoUnit.MINUTES))
+            new Recipe(52.f, Duration.of(30, ChronoUnit.MINUTES)),
+            new Recipe(72.f, Duration.of(30, ChronoUnit.MINUTES)),
+            new Recipe(76.f, Duration.of(30, ChronoUnit.MINUTES))
     );
 
     @Autowired
